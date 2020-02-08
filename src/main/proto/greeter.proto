@@ -1,0 +1,25 @@
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.shivanthah.grpc";
+option java_outer_classname = "GreeterProto";
+option objc_class_prefix = "HLW";
+
+package greeter;
+
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc SayHello (Greet) returns (Greeted) {}
+}
+
+// The request message containing the user's name.
+message Greet {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message Greeted {
+  string message = 1;
+}
