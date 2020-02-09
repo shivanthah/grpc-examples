@@ -14,10 +14,13 @@ import yahoofinance.quotes.fx.FxQuote;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class QuoteServer implements Runnable {
-    final static Logger LOG = LoggerFactory.getLogger(QuoteServer.class);
+public class FxQuoteServer implements Runnable {
+    final static Logger LOG = LoggerFactory.getLogger(FxQuoteServer.class);
 
     @Override
     public void run() {
@@ -93,5 +96,16 @@ public class QuoteServer implements Runnable {
             LOG.error("error getting quote price", e);
         }
         return BigDecimal.ZERO;
+    }
+
+    public static void main(String[] args) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(new FxQuoteServer());
+        try {
+            executorService.awaitTermination(3, TimeUnit.MINUTES);
+            executorService.shutdown();
+        } catch (InterruptedException e) {
+            LOG.error("executorService is timeout", e);
+        }
     }
 }

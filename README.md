@@ -1,3 +1,3 @@
 GRPC Java Examples
 
-This project illustrates various examples of grpc.   
+This sample project describes various examples of GRPC practical scenarios.   

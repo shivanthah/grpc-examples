@@ -13,11 +13,13 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class QuoteClient implements Runnable {
-    final static Logger LOG = LoggerFactory.getLogger(QuoteClient.class);
+public class FxQuoteClient implements Runnable {
+    final static Logger LOG = LoggerFactory.getLogger(FxQuoteClient.class);
 
     @Override
     public void run() {
@@ -173,5 +175,16 @@ public class QuoteClient implements Runnable {
         "NZDJPY=X", "NZDCAD=X", "NZDSGD=X", "NZDHKD=X", "HKDUSD=X", "HKDGBP=X", "HKDEUR=X",
         "HKDAUD=X", "HKDCHF=X", "HKDJPY=X", "HKDCAD=X", "HKDSGD=X", "HKDNZD=X"
         );
+    }
+
+    public static void main(String[] args) {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        executorService.execute(new FxQuoteClient());
+        try {
+            executorService.awaitTermination(3, TimeUnit.MINUTES);
+            executorService.shutdown();
+        } catch (InterruptedException e) {
+            LOG.error("executorService is timeout", e);
+        }
     }
 }
