@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "come.shivanthah.grpc.forex";
+option java_outer_classname = "FxQuotosProto";
+option objc_class_prefix = "HLWS";
+
+package come.shivanthah.grpc.forex;
+
+service StreamingFxQuote {
+    rpc snapFxQuote(stream FxQuoteRequest) returns (stream FxQuoteResponse);
+}
+
+message FxQuoteRequest {
+    string symbol = 1;
+}
+
+message FxQuoteResponse {
+    string symbol = 1;
+    double price  = 2;
+}
